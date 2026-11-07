@@ -1,0 +1,21 @@
+# เอกสารประกอบการสอนของอาจารย์ (ห้ามขึ้น GitHub)
+เนื้อหาที่เรียน(ต้องใส่ .gitignore)/
+
+# Node / React
+node_modules/
+build/
+.env
+.env.local
+.env.*.local
+
+# Go
+*.exe
+*.test
+*.out
+.jwt_secret
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
