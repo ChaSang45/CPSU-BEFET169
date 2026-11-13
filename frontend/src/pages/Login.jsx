@@ -9,7 +9,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [status, setStatus] = useState('typing');             // 'typing' | 'submitting'
-  const { login } = useAuth();
+  const { login, sessionExpired } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from || '/';                   // ProtectedRoute ส่งมาบอกว่าเดิมจะไปไหน
@@ -30,6 +30,11 @@ function Login() {
   return (
     <div className="mx-auto max-w-sm px-4 py-12">
       <h1 className="text-2xl font-semibold text-slate-900">เข้าสู่ระบบ</h1>
+      {sessionExpired && (
+        <p className="mt-4 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-700">
+          เซสชันหมดอายุหรือไม่ถูกต้อง กรุณาเข้าสู่ระบบใหม่
+        </p>
+      )}
       <form onSubmit={handleSubmit} className="mt-6 space-y-3">
         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="อีเมล" required className={inputClass} />
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="รหัสผ่าน" required className={inputClass} />

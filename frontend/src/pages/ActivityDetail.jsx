@@ -1,9 +1,10 @@
-// เจ้าของ: Matika (ส่วนแสดงรายละเอียด) + ChaSang45 (ปุ่มสมัคร / ยกเลิก)
+// เจ้าของ: ChaSang45 — รายละเอียดกิจกรรม + ปุ่มสมัคร / ยกเลิก
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import { getActivity, getMyActivities, joinActivity, cancelActivity } from '../api/backend';
 import { ErrorBox, Loading, btnPrimary, btnDanger, dateTimeTH } from '../components/States';
+import { StatusBadge, activityStatus } from '../components/ActivityStatus';
 
 function ActivityDetail() {
   const { id } = useParams();
@@ -22,7 +23,14 @@ function ActivityDetail() {
       try {
         const a = await getActivity(id);
         let mine = [];
-        if (token) mine = await getMyActivities(token);   // login แล้วถึงเช็กว่าสมัครไว้หรือยัง
+        if (token) {                                       // login แล้วถึงเช็กว่าสมัครไว้หรือยัง
+          try {
+            mine = await getMyActivities(token);
+          } catch {
+            // เช็กไม่ได้ (เช่น ตั๋วหมดอายุ) ก็ยังแสดงกิจกรรมได้ เพราะเป็นข้อมูลสาธารณะ
+            // ถ้าตั๋วเสียจริง apiFetch จะล้าง login แล้ว effect นี้โหลดใหม่แบบ Guest เอง
+          }
+        }
         if (!ignore) {
           setActivity(a);
           setJoined(mine.some(m => m.id === a.id));
@@ -69,17 +77,16 @@ function ActivityDetail() {
   if (status === 'loading') return <Loading />;
   if (status === 'error') return <div className="mx-auto max-w-3xl px-4 py-10"><ErrorBox error={error} /></div>;
 
-  const full = activity.registered >= activity.capacity;
-  const started = new Date(activity.startAt) < new Date();
+  const activityState = activityStatus(activity);   // 'open' | 'full' | 'started'
 
   let action;
   if (!isLoggedIn) {
     action = <Link to="/login" state={{ from: `/activities/${id}` }} className={btnPrimary}>เข้าสู่ระบบเพื่อสมัคร</Link>;
   } else if (joined) {
     action = <button onClick={handleCancel} disabled={busy} className={btnDanger}>{busy ? 'กำลังยกเลิก...' : 'ยกเลิกการสมัคร'}</button>;
-  } else if (started) {
+  } else if (activityState === 'started') {
     action = <p className="text-slate-500">กิจกรรมเริ่มไปแล้ว</p>;
-  } else if (full) {
+  } else if (activityState === 'full') {
     action = <p className="text-red-600">กิจกรรมเต็มแล้ว</p>;
   } else {
     action = <button onClick={handleJoin} disabled={busy} className={btnPrimary}>{busy ? 'กำลังสมัคร...' : 'สมัครเข้าร่วม'}</button>;
@@ -89,7 +96,10 @@ function ActivityDetail() {
     <div className="mx-auto max-w-3xl px-4 py-10">
       <Link to="/" className="text-sm text-indigo-600 hover:underline">← กิจกรรมทั้งหมด</Link>
       <div className="mt-3 rounded-xl border border-indigo-100 bg-white p-6 shadow-sm">
-        <h1 className="text-2xl font-semibold text-slate-900">{activity.title}</h1>
+        <div className="flex items-start justify-between gap-3">
+          <h1 className="text-2xl font-semibold text-slate-900">{activity.title}</h1>
+          <StatusBadge activity={activity} />
+        </div>
         <p className="mt-2 text-slate-600">📅 {dateTimeTH(activity.startAt)}</p>
         <p className="text-slate-600">📍 {activity.location || '-'}</p>
         <p className="text-slate-600">👥 สมัครแล้ว {activity.registered}/{activity.capacity}</p>

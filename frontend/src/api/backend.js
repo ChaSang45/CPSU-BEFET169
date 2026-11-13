@@ -4,6 +4,13 @@
 // บน Vercel ตั้ง REACT_APP_API_URL=https://xxx.onrender.com
 const BASE = process.env.REACT_APP_API_URL || '';
 
+// AuthProvider ลงทะเบียนฟังก์ชันไว้ตรงนี้ เรียกเมื่อ server ตอบ 401 ทั้งที่เราแนบ token ไป
+// = ตั๋วหมดอายุหรือไม่ถูกต้อง ต้องล้าง login (ไม่ต้องให้ทุกหน้าเช็กเอง)
+let onUnauthorized = null;
+export function setUnauthorizedHandler(fn) {
+  onUnauthorized = fn;
+}
+
 // ฟังก์ชันเดียวที่ fetch จริง ทุกฟังก์ชันด้านล่างเรียกผ่านตัวนี้
 export async function apiFetch(path, { method = 'GET', body, token } = {}) {
   const headers = { 'Content-Type': 'application/json' };   // 1) บอก server ว่า body เป็น JSON
@@ -20,6 +27,7 @@ export async function apiFetch(path, { method = 'GET', body, token } = {}) {
   const data = await res.json()                              //    อ่านคำตอบเป็น JSON
     .catch(() => ({ error: 'server ไม่ได้ตอบเป็น JSON (backend ยังไม่พร้อม?)' }));
   if (!res.ok) {                                             // 4) 400 / 401 / 403 / 404 / 409 มาลงตรงนี้
+    if (res.status === 401 && token && onUnauthorized) onUnauthorized();   // ส่งตั๋วไปแล้วยังโดน 401 = ตั๋วใช้ไม่ได้
     const err = new Error(data.error?.message ?? data.error ?? `server ตอบกลับ ${res.status}`);
     err.status = res.status;                                 //    แนบเลขไว้ให้หน้าเว็บใช้ต่อ
     throw err;

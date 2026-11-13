@@ -1,4 +1,4 @@
-import { apiFetch, joinActivity } from './backend';
+import { apiFetch, joinActivity, getMyActivities, login, setUnauthorizedHandler } from './backend';
 
 // ตัวช่วยสร้าง "คำตอบปลอม" ของ fetch: ใส่แค่ status กับ body ที่อยากให้ server ตอบ
 function fakeResponse(status, body) {
@@ -45,4 +45,26 @@ test('server ตอบ 409 ต้อง throw พร้อมข้อควา�
     message: 'กิจกรรมเต็มแล้ว',
     status: 409,
   });
+});
+
+test('401 ทั้งที่แนบ token ต้องเรียก handler ล้าง login ด้วย', async () => {
+  const handler = jest.fn();
+  setUnauthorizedHandler(handler);
+  fetch.mockResolvedValue(fakeResponse(401, { error: 'ตั๋วไม่ถูกต้องหรือหมดอายุ' }));
+
+  await expect(getMyActivities('old.token')).rejects.toMatchObject({ status: 401 });
+
+  expect(handler).toHaveBeenCalledTimes(1);
+  setUnauthorizedHandler(null);
+});
+
+test('401 ตอน login ผิด (ไม่มี token) ต้องไม่เรียก handler', async () => {
+  const handler = jest.fn();
+  setUnauthorizedHandler(handler);
+  fetch.mockResolvedValue(fakeResponse(401, { error: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' }));
+
+  await expect(login('a@b.com', 'wrong')).rejects.toMatchObject({ status: 401 });
+
+  expect(handler).not.toHaveBeenCalled();
+  setUnauthorizedHandler(null);
 });
