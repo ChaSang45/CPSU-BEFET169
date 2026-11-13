@@ -7,7 +7,7 @@
 
 - ก่อนเริ่มงานทุกชิ้น: [docs/SCOPE.md](docs/SCOPE.md) ขอบเขต, tech stack ที่ใช้ได้, ป้ายที่มา [จารย์]/[วิชา]/[เสนอ]
 - เมื่อต้องตีความเกณฑ์คะแนนหรือข้อบังคับ: [docs/INSTRUCTOR-REQUIREMENTS.md](docs/INSTRUCTOR-REQUIREMENTS.md) (ฉบับคัดลอกตรงจากอาจารย์ ห้ามแก้)
-- เมื่อแตะ API: `docs/api.md` (สัญญา API ยังไม่สร้าง ต้องตกลงกันก่อนเขียนโค้ดฝั่งใดฝั่งหนึ่ง)
+- เมื่อแตะ API: `docs/api.md` (สัญญา API — เปลี่ยน endpoint ต้องแก้ไฟล์นี้และบอกอีกคนก่อน)
 
 ## ลำดับความสำคัญเมื่อข้อมูลขัดกัน
 
@@ -37,7 +37,11 @@
 
 | ส่วนงาน | เจ้าของ |
 |---|---|
-| (ยังไม่แบ่ง — เติมหลังเลือกหัวข้อ) | |
+| กิจกรรม: ดู/ค้นหา/รายละเอียด — BE `handler/activities.go`, `store/activities.go` / FE `pages/Home.jsx`, `pages/ActivityDetail.jsx` (ส่วนแสดงผล), `components/ActivityCard.jsx`, `components/ActivityGrid.jsx` | Matika-Tana |
+| หลังบ้าน: เพิ่ม/แก้/ลบ/ดูผู้สมัคร — BE `handler/admin.go` / FE `pages/admin/*` | Matika-Tana |
+| สมาชิก: สมัคร/ล็อกอิน/ออก/โปรไฟล์/เปลี่ยนรหัสผ่าน/JWT/401-403 — BE `handler/auth.go`, `store/members.go`, `mw/auth.go` / FE `auth/AuthContext.jsx`, `components/ProtectedRoute.jsx`, `components/RequireRole.jsx`, `pages/Login.jsx`, `pages/Register.jsx`, `pages/Profile.jsx` (โปรไฟล์ + เปลี่ยนรหัสผ่าน) | ChaSang45 |
+| เข้าร่วมกิจกรรม: สมัคร/ยกเลิก/กิจกรรมของฉัน — BE `handler/registrations.go`, `store/registrations.go` / FE ปุ่มใน `ActivityDetail.jsx`, `pages/MyActivities.jsx` | ChaSang45 |
+| ไฟล์กลาง: `main.go`, `handler/handler.go` (Routes), `mw/mw.go`, `store/store.go`, `schema.sql`, `api/backend.js`, `App.jsx`, `components/States.jsx`, `components/Navbar.jsx` | ทั้งคู่ (แก้แล้วบอกกัน) |
 
 ## กติกาใช้ AI (ข้อสำคัญที่สุด)
 
@@ -59,6 +63,9 @@
 
 ## สถานะ ณ ตอนนี้ (อัปเดตเมื่อเปลี่ยน)
 
-- หัวข้อโปรเจกต์: ยังไม่เลือก
-- โครงสร้าง repo (รวม `frontend/`+`backend/` หรือแยก 2 repo): ยังไม่ตัดสินใจ
+- หัวข้อโปรเจกต์: เว็บรวบรวมกิจกรรมคณะ (Guest ดู/ค้นหา, Member สมัคร/ยกเลิก/กิจกรรมของฉัน, Admin จัดการกิจกรรม+ดูผู้สมัคร)
+- โครงสร้าง repo: repo เดียว `frontend/` + `backend/` (Render/Vercel ตั้ง Root Directory)
+- สัญญา API: `docs/api.md` / วิธีรันและ deploy: `docs/DEPLOY.md` / เทียบกับที่เรียน: `docs/CLASS-CHECK.md`
+- รูปแบบโค้ดยึดตาม repo คลาส: moviehub (FE) และ backend-week8-lab (Go)
+- โค้ดเวอร์ชันแรกเขียนครบแล้ว แต่ยังไม่ได้รันกับ DB จริง ยังไม่ได้ deploy
 - กำหนดส่ง: 8–14 พ.ย. 2569

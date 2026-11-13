@@ -19,3 +19,6 @@ build/
 Thumbs.db
 .vscode/
 .idea/
+
+# Go binary (Linux/Mac build output)
+backend/app
