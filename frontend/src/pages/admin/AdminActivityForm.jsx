@@ -77,24 +77,24 @@ function AdminActivityForm() {
   if (status === 'error') return <ErrorBox error={error} />;
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-lg space-y-3 rounded-xl border border-indigo-100 bg-white p-6">
-      <h2 className="text-lg font-semibold text-slate-900">{isEdit ? 'แก้ไขกิจกรรม' : 'เพิ่มกิจกรรม'}</h2>
-      <label className="block text-sm text-slate-600">ชื่อกิจกรรม
+    <form onSubmit={handleSubmit} className="max-w-lg space-y-4 rounded-lg border border-line bg-white p-6">
+      <h2 className="text-lg font-semibold text-ink">{isEdit ? 'แก้ไขกิจกรรม' : 'เพิ่มกิจกรรม'}</h2>
+      <label className="block text-sm font-medium text-ink">ชื่อกิจกรรม
         <input name="title" required value={form.title} onChange={handleChange} className={inputClass} />
       </label>
-      <label className="block text-sm text-slate-600">รายละเอียด
+      <label className="block text-sm font-medium text-ink">รายละเอียด
         <textarea name="description" rows={4} value={form.description} onChange={handleChange} className={inputClass} />
       </label>
-      <label className="block text-sm text-slate-600">สถานที่
+      <label className="block text-sm font-medium text-ink">สถานที่
         <input name="location" value={form.location} onChange={handleChange} className={inputClass} />
       </label>
-      <label className="block text-sm text-slate-600">วันเวลาเริ่ม
+      <label className="block text-sm font-medium text-ink">วันเวลาเริ่ม
         <input name="startAt" type="datetime-local" required value={form.startAt} onChange={handleChange} className={inputClass} />
       </label>
-      <label className="block text-sm text-slate-600">จำนวนรับ
+      <label className="block text-sm font-medium text-ink">จำนวนรับ
         <input name="capacity" type="number" min={1} required value={form.capacity} onChange={handleChange} className={inputClass} />
       </label>
-      {saveError && <p className="text-sm text-red-600">{saveError}</p>}
+      {saveError && <p role="alert" className="text-sm font-medium text-alert">{saveError}</p>}
       <div className="flex gap-2 pt-2">
         <button type="submit" disabled={saving} className={btnPrimary}>{saving ? 'กำลังบันทึก...' : 'บันทึก'}</button>
         <button type="button" onClick={() => navigate('/admin')} className={btnGhost}>ยกเลิก</button>
