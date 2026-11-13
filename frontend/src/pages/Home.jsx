@@ -1,7 +1,8 @@
-// เจ้าของ: Matika — หน้าแรก: รายการกิจกรรม + ค้นหา (Guest ดูได้ ไม่ต้อง login)
+// เจ้าของ: ChaSang45 — หน้าแรก: รายการกิจกรรม + ค้นหา (Guest ดูได้ ไม่ต้อง login)
 import { useEffect, useState } from 'react';
 import ActivityGrid from '../components/ActivityGrid';
 import { inputClass } from '../components/States';
+import { sortActivities } from '../components/ActivityStatus';
 import { getActivities } from '../api/backend';
 
 function Home() {
@@ -28,9 +29,9 @@ function Home() {
 
   // ค้นหาในเครื่องจากข้อมูลที่โหลดมาแล้ว ไม่ต้องเรียก backend ซ้ำทุกตัวอักษร
   const q = query.trim().toLowerCase();
-  const shown = activities.filter(a =>
+  const shown = sortActivities(activities.filter(a =>
     q === '' || a.title.toLowerCase().includes(q) || a.location.toLowerCase().includes(q)
-  );
+  ));                                                  // กิจกรรมที่ยังไม่เริ่มขึ้นก่อน
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 md:px-6">

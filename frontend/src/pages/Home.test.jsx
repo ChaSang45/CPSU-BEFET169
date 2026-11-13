@@ -8,8 +8,8 @@ import { getActivities } from '../api/backend';
 jest.mock('../api/backend');
 
 const FAKE = [
-  { id: 1, title: 'กีฬาสีคณะ', location: 'สนามกีฬา', startAt: '2026-12-05T01:00:00Z', capacity: 500, registered: 10 },
-  { id: 2, title: 'Workshop React', location: 'ห้องแล็บ 1', startAt: '2026-11-25T06:00:00Z', capacity: 30, registered: 30 },
+  { id: 1, title: 'กีฬาสีคณะ', location: 'สนามกีฬา', startAt: '2099-12-05T01:00:00Z', capacity: 500, registered: 10 },
+  { id: 2, title: 'Workshop React', location: 'ห้องแล็บ 1', startAt: '2099-11-25T06:00:00Z', capacity: 30, registered: 30 },
 ];
 
 function renderHome() {
@@ -22,7 +22,8 @@ test('โหลดสำเร็จ ต้องเห็นการ์ดค�
 
   expect(await screen.findByText('กีฬาสีคณะ')).toBeInTheDocument();   // findBy = รอจน useEffect โหลดเสร็จ
   expect(screen.getAllByRole('link')).toHaveLength(2);
-  expect(screen.getByText(/30\/30/)).toHaveTextContent('(เต็ม)');
+  expect(screen.getByText('เต็ม')).toBeInTheDocument();     // ป้ายสถานะของกิจกรรม 30/30
+  expect(screen.getByText('เปิดรับสมัคร')).toBeInTheDocument();
 });
 
 test('พิมพ์ค้นหา ต้องกรองในเครื่องโดยไม่เรียก backend ซ้ำ', async () => {
@@ -56,4 +57,18 @@ test('backend ล่ม ต้องเห็น error และปุ่มล�
 
   expect(await screen.findByText('กีฬาสีคณะ')).toBeInTheDocument();
   expect(getActivities).toHaveBeenCalledTimes(2);
+});
+
+test('เรียงกิจกรรมที่ยังไม่เริ่มก่อน และกิจกรรมที่เริ่มไปแล้วไว้ท้าย พร้อมป้าย "เริ่มแล้ว"', async () => {
+  getActivities.mockResolvedValue([
+    { id: 9, title: 'งานเก่า', location: 'A', startAt: '2000-01-01T00:00:00Z', capacity: 10, registered: 1 },
+    { id: 8, title: 'งานไกล', location: 'B', startAt: '2099-12-01T00:00:00Z', capacity: 10, registered: 1 },
+    { id: 7, title: 'งานใกล้', location: 'C', startAt: '2099-01-01T00:00:00Z', capacity: 10, registered: 1 },
+  ]);
+  renderHome();
+  await screen.findByText('งานเก่า');
+
+  const titles = screen.getAllByRole('heading', { level: 3 }).map(h => h.textContent);
+  expect(titles).toEqual(['งานใกล้', 'งานไกล', 'งานเก่า']);
+  expect(screen.getByText('เริ่มแล้ว')).toBeInTheDocument();
 });
