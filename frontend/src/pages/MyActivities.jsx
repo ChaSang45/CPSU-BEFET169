@@ -3,7 +3,10 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import { getMyActivities, cancelActivity } from '../api/backend';
-import { ErrorBox, Loading, Empty, ConfirmBox, btnDanger, dateTimeTH } from '../components/States';
+import { ErrorBox, Loading, Empty, ConfirmBox, btnDanger } from '../components/States';
+import { PinIcon } from '../components/Icons';
+import { DateBlock } from '../components/Ticket';
+import { StatusBadge, activityStatus } from '../components/ActivityStatus';
 
 function MyActivities() {
   const { token, member } = useAuth();
@@ -46,29 +49,36 @@ function MyActivities() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-2xl font-semibold text-slate-900">กิจกรรมของ {member?.displayName}</h1>
-      <p className="mb-6 text-sm text-slate-500">กดชื่อกิจกรรมเพื่อดูรายละเอียด</p>
+      <h1 className="text-3xl font-bold text-ink">กิจกรรมของ {member?.displayName}</h1>
+      <p className="mb-6 mt-1 text-ink-soft">กดชื่อกิจกรรมเพื่อดูรายละเอียด</p>
 
-      {actionError && <p className="mb-3 text-sm text-red-600">{actionError}</p>}
+      {actionError && <p role="alert" className="mb-3 text-sm font-medium text-alert">{actionError}</p>}
       {status === 'loading' && <Loading />}
       {status === 'error' && <ErrorBox error={error} onRetry={() => setReloadKey(k => k + 1)} />}
       {status === 'success' && activities.length === 0 && <Empty text="ยังไม่ได้สมัครกิจกรรมใด" />}
       {status === 'success' && activities.length > 0 && (
-        <ul className="space-y-3">
+        <ul className="space-y-4">
           {activities.map(a => (
-            <li key={a.id} className="flex items-center justify-between rounded-xl border border-indigo-100 bg-white p-4">
-              <div>
-                <Link to={`/activities/${a.id}`} className="font-medium text-indigo-700 hover:underline">{a.title}</Link>
-                <p className="text-sm text-slate-500">{dateTimeTH(a.startAt)} · {a.location}</p>
+            <li key={a.id} className="flex overflow-hidden rounded-lg border border-line bg-white">
+              <DateBlock iso={a.startAt} muted={activityStatus(a) === 'started'} />
+              <div className="min-w-0 flex-1 p-4">
+                <Link to={`/activities/${a.id}`} className="break-words font-semibold leading-snug text-ink hover:underline">{a.title}</Link>
+                <p className="mt-2 flex items-start gap-1.5 text-sm text-ink-soft">
+                  <PinIcon className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span className="min-w-0 break-words">{a.location || '-'}</span>
+                </p>
+                <div className="mt-3"><StatusBadge activity={a} /></div>
               </div>
-              <button onClick={() => setTarget(a)} className={btnDanger}>ยกเลิก</button>
+              <div className="stub-v flex w-24 shrink-0 sm:w-28 items-center justify-center px-2 py-3">
+                <button onClick={() => setTarget(a)} className={btnDanger}>ยกเลิก</button>
+              </div>
             </li>
           ))}
         </ul>
       )}
 
       <ConfirmBox open={Boolean(target)} busy={busy} title={`ยกเลิกการสมัคร "${target?.title}" ?`}
-                  confirmText="ยกเลิกการสมัคร" onConfirm={confirmCancel} onCancel={() => setTarget(null)}>
+                  confirmText="ยกเลิกการสมัคร" cancelText="กลับ" onConfirm={confirmCancel} onCancel={() => setTarget(null)}>
         <p>ถ้าที่นั่งเต็มแล้ว อาจสมัครกลับเข้ามาใหม่ไม่ได้</p>
       </ConfirmBox>
     </div>

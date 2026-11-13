@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../auth/AuthContext';
 import { getMe, updateMe, changePassword } from '../api/backend';
-import { ErrorBox, Loading, btnPrimary, inputClass } from '../components/States';
+import { ErrorBox, Loading, btnPrimary, inputClass, labelClass } from '../components/States';
 
 const dateTH = (iso) => new Date(iso).toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
 
@@ -83,39 +83,58 @@ function Profile() {
     return <div className="mx-auto max-w-lg px-4 py-10"><ErrorBox error={error} onRetry={() => setReloadKey(k => k + 1)} /></div>;
   }
 
-  const msgClass = (m) => 'text-sm ' + (m.ok ? 'text-emerald-600' : 'text-red-600');
+  const msgClass = (m) => 'text-sm font-medium ' + (m.ok ? 'text-seat' : 'text-alert');
 
   return (
     <div className="mx-auto max-w-lg space-y-6 px-4 py-10">
-      <h1 className="text-2xl font-semibold text-slate-900">โปรไฟล์ของฉัน</h1>
+      <h1 className="text-3xl font-bold text-ink">โปรไฟล์ของฉัน</h1>
 
-      <div className="rounded-xl border border-indigo-100 bg-white p-6 text-sm text-slate-600">
-        <p>อีเมล: <span className="text-slate-900">{me.email}</span></p>
-        <p>บทบาท: <span className="text-slate-900">{me.role}</span></p>
-        <p>สมัครเมื่อ: <span className="text-slate-900">{dateTH(me.createdAt)}</span></p>
-      </div>
+      <dl className="grid grid-cols-[6.5rem_1fr] gap-x-4 gap-y-2 rounded-lg border border-line bg-white p-6 text-sm">
+        <dt className="text-ink-soft">อีเมล</dt>
+        <dd className="break-all font-medium text-ink">{me.email}</dd>
+        <dt className="text-ink-soft">บทบาท</dt>
+        <dd className="font-medium text-ink">{me.role}</dd>
+        <dt className="text-ink-soft">สมัครเมื่อ</dt>
+        <dd className="font-medium text-ink">{dateTH(me.createdAt)}</dd>
+      </dl>
 
-      <form onSubmit={handleSaveName} className="space-y-3 rounded-xl border border-indigo-100 bg-white p-6">
-        <h2 className="font-semibold text-slate-900">แก้ไขชื่อที่แสดง</h2>
-        <input value={displayName} onChange={(e) => setDisplayName(e.target.value)} required className={inputClass} />
+      <form onSubmit={handleSaveName} className="space-y-4 rounded-lg border border-line bg-white p-6">
+        <h2 className="text-lg font-semibold text-ink">แก้ไขชื่อที่แสดง</h2>
+        <label className="block">
+          <span className={labelClass}>ชื่อที่แสดง</span>
+          <input value={displayName} onChange={(e) => setDisplayName(e.target.value)}
+                 autoComplete="name" required className={inputClass} />
+        </label>
         <button type="submit" disabled={nameStatus === 'submitting'} className={btnPrimary}>
           {nameStatus === 'submitting' ? 'กำลังบันทึก...' : 'บันทึกชื่อ'}
         </button>
-        {nameMsg && <p className={msgClass(nameMsg)}>{nameMsg.text}</p>}
+        {nameMsg && <p role="status" className={msgClass(nameMsg)}>{nameMsg.text}</p>}
       </form>
 
-      <form onSubmit={handleChangePassword} className="space-y-3 rounded-xl border border-indigo-100 bg-white p-6">
-        <h2 className="font-semibold text-slate-900">เปลี่ยนรหัสผ่าน</h2>
-        <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)}
-               placeholder="รหัสผ่านเดิม" required className={inputClass} />
-        <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)}
-               placeholder="รหัสผ่านใหม่ (อย่างน้อย 6 ตัว)" required minLength={6} className={inputClass} />
-        <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
-               placeholder="ยืนยันรหัสผ่านใหม่" required className={inputClass} />
+      <form onSubmit={handleChangePassword} className="space-y-4 rounded-lg border border-line bg-white p-6">
+        <h2 className="text-lg font-semibold text-ink">เปลี่ยนรหัสผ่าน</h2>
+        <label className="block">
+          <span className={labelClass}>รหัสผ่านเดิม</span>
+          <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)}
+                 autoComplete="current-password" required className={inputClass} />
+        </label>
+        <div>
+          <label className="block">
+            <span className={labelClass}>รหัสผ่านใหม่</span>
+            <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)}
+                   autoComplete="new-password" required minLength={6} className={inputClass} />
+          </label>
+          <p className="mt-1 text-xs text-ink-soft">อย่างน้อย 6 ตัวอักษร</p>
+        </div>
+        <label className="block">
+          <span className={labelClass}>ยืนยันรหัสผ่านใหม่</span>
+          <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
+                 autoComplete="new-password" required className={inputClass} />
+        </label>
         <button type="submit" disabled={pwStatus === 'submitting'} className={btnPrimary}>
           {pwStatus === 'submitting' ? 'กำลังเปลี่ยน...' : 'เปลี่ยนรหัสผ่าน'}
         </button>
-        {pwMsg && <p className={msgClass(pwMsg)}>{pwMsg.text}</p>}
+        {pwMsg && <p role={pwMsg.ok ? 'status' : 'alert'} className={msgClass(pwMsg)}>{pwMsg.text}</p>}
       </form>
     </div>
   );

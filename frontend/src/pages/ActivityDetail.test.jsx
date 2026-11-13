@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from '../auth/AuthContext';
@@ -69,11 +69,29 @@ test('คนที่สมัครไว้แล้วเห็นปุ่�
   cancelActivity.mockResolvedValue(null);
   renderDetail();
 
-  await user.click(await screen.findByRole('button', { name: 'ยกเลิกการสมัคร' }));
+  await user.click(await screen.findByRole('button', { name: 'ยกเลิกการสมัคร' }));   // เปิดกล่องยืนยัน ยังไม่เรียก API
+  expect(cancelActivity).not.toHaveBeenCalled();
+  const dialog = screen.getByRole('dialog');
+  expect(screen.getByRole('button', { name: 'กลับ' })).toHaveFocus();                // โฟกัสอยู่ที่ปุ่มปลอดภัย
+  await user.click(within(dialog).getByRole('button', { name: 'ยกเลิกการสมัคร' }));  // ยืนยันจริง
 
   expect(cancelActivity).toHaveBeenCalledWith('2', 'fake.token');
   expect(await screen.findByRole('button', { name: 'สมัครเข้าร่วม' })).toBeInTheDocument();
   expect(screen.getByText(/สมัครแล้ว 4\/30/)).toBeInTheDocument();
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+});
+
+test('กดกลับในกล่องยืนยัน: ไม่ยกเลิกจริง และปิดกล่อง', async () => {
+  const user = userEvent.setup();
+  getMyActivities.mockResolvedValue([{ id: 2 }]);
+  renderDetail();
+
+  await user.click(await screen.findByRole('button', { name: 'ยกเลิกการสมัคร' }));
+  await user.click(screen.getByRole('button', { name: 'กลับ' }));
+
+  expect(cancelActivity).not.toHaveBeenCalled();
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'ยกเลิกการสมัคร' })).toHaveFocus();      // โฟกัสกลับมาที่ปุ่มเดิม
 });
 
 test('กิจกรรมเต็ม ไม่มีปุ่มสมัคร', async () => {

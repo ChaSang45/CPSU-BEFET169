@@ -3,5 +3,48 @@
 @tailwind utilities;
 
 body {
-  @apply bg-slate-50 text-slate-800;
+  @apply bg-paper text-ink antialiased;
+}
+
+/* วงแหวนโฟกัสที่เห็นชัดทุกที่ (คีย์บอร์ด) */
+:focus-visible {
+  outline: 2px solid theme('colors.ink');
+  outline-offset: 2px;
+}
+.on-dark:focus-visible {
+  outline-color: theme('colors.signal');
+}
+
+/* ผู้ใช้ที่ตั้งค่าลดการเคลื่อนไหว ไม่ต้องมี transition */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ส่วนที่ทำให้เป็นตั๋ว: เส้นปรุแนวตั้ง + รอยบากครึ่งวงกลมบน-ล่าง (การ์ดต้อง overflow-hidden) */
+@layer components {
+  .stub-v {
+    @apply relative border-l-2 border-dashed border-line;
+  }
+  .stub-v::before,
+  .stub-v::after {
+    content: '';
+    @apply absolute -left-2 h-4 w-4 rounded-full border border-line bg-paper;
+  }
+  .stub-v::before { top: -0.5rem; }
+  .stub-v::after { bottom: -0.5rem; }
+
+  /* เส้นปรุแนวนอน + รอยบากซ้าย-ขวา (ใช้ในหน้ารายละเอียด) */
+  .stub-h {
+    @apply relative border-t-2 border-dashed border-line;
+  }
+  .stub-h::before,
+  .stub-h::after {
+    content: '';
+    @apply absolute -top-2 h-4 w-4 rounded-full border border-line bg-paper;
+  }
+  .stub-h::before { left: -0.5rem; }
+  .stub-h::after { right: -0.5rem; }
 }

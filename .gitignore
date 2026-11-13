@@ -1,6 +1,9 @@
 # เอกสารประกอบการสอนของอาจารย์ (ห้ามขึ้น GitHub)
 เนื้อหาที่เรียน(ต้องใส่ .gitignore)/
 
+# ข้อกำหนดของอาจารย์ (เก็บไว้ในเครื่อง ไม่ขึ้น GitHub)
+docs/INSTRUCTOR-REQUIREMENTS.md
+
 # Node / React
 node_modules/
 build/

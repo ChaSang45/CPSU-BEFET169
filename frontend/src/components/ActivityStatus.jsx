@@ -10,15 +10,15 @@ export function activityStatus(activity, now = new Date()) {
 
 const LABEL = { open: 'เปิดรับสมัคร', full: 'เต็ม', started: 'เริ่มแล้ว' };
 const STYLE = {
-  open: 'bg-emerald-50 text-emerald-700',
-  full: 'bg-red-50 text-red-700',
-  started: 'bg-slate-100 text-slate-500',
+  open: 'bg-seat/10 text-seat',
+  full: 'bg-alert/10 text-alert',
+  started: 'bg-line/60 text-ink-soft',
 };
 
 export function StatusBadge({ activity }) {
   const status = activityStatus(activity);
   return (
-    <span className={'inline-block rounded-full px-2 py-0.5 text-xs font-medium ' + STYLE[status]}>
+    <span className={'inline-block rounded px-2 py-0.5 text-xs font-semibold ' + STYLE[status]}>
       {LABEL[status]}
     </span>
   );
