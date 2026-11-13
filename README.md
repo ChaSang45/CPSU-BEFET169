@@ -25,7 +25,6 @@ React (Create React App) + React Router v6 + Tailwind CSS v3 / Go `net/http` + p
 - [docs/SCOPE.md](docs/SCOPE.md) ขอบเขตงานและเกณฑ์
 - [docs/api.md](docs/api.md) สัญญา API
 - [docs/ADMIN.md](docs/ADMIN.md) วิธีตั้งแอดมินและตรวจสิทธิ์
-- [docs/INSTRUCTOR-REQUIREMENTS.md](docs/INSTRUCTOR-REQUIREMENTS.md) ข้อกำหนดของอาจารย์
 
 ## วิธีรันในเครื่อง
 
