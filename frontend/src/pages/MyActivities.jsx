@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import { getMyActivities, cancelActivity } from '../api/backend';
-import { ErrorBox, Loading, Empty, ConfirmBox, btnDanger } from '../components/States';
+import { ErrorBox, Loading, Empty, ConfirmBox, btnDanger, linkClass } from '../components/States';
 import { PinIcon } from '../components/Icons';
 import { DateBlock } from '../components/Ticket';
 import { StatusBadge, activityStatus } from '../components/ActivityStatus';
@@ -55,7 +55,12 @@ function MyActivities() {
       {actionError && <p role="alert" className="mb-3 text-sm font-medium text-alert">{actionError}</p>}
       {status === 'loading' && <Loading />}
       {status === 'error' && <ErrorBox error={error} onRetry={() => setReloadKey(k => k + 1)} />}
-      {status === 'success' && activities.length === 0 && <Empty text="ยังไม่ได้สมัครกิจกรรมใด" />}
+      {status === 'success' && activities.length === 0 && (
+        <div className="text-center">
+          <Empty text="ยังไม่ได้สมัครกิจกรรมใด" />
+          <Link to="/" className={linkClass + ' inline-flex min-h-[44px] items-center'}>ดูกิจกรรมทั้งหมด</Link>
+        </div>
+      )}
       {status === 'success' && activities.length > 0 && (
         <ul className="space-y-4">
           {activities.map(a => (

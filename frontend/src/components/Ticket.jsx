@@ -4,7 +4,9 @@ import { activityStatus } from './ActivityStatus';
 
 // บล็อกวันที่ด้านซ้ายของตั๋ว สีเหลืองสำหรับกิจกรรมที่ยังมาไม่ถึง ซีดลงเมื่อเริ่มไปแล้ว
 export function DateBlock({ iso, muted = false, large = false }) {
-  const { day, month, time } = dateParts(iso);
+  const { day, month, year, time } = dateParts(iso);
+  // กิจกรรมข้ามปีแสดงปี (พ.ศ.) ด้วย จะได้ไม่สับสนว่า ม.ค. ของปีนี้หรือปีหน้า
+  const otherYear = year !== new Date().toLocaleDateString('th-TH', { year: 'numeric' });
   return (
     <div className={
       'flex shrink-0 flex-col items-center justify-center px-3 py-4 text-center '
@@ -14,6 +16,7 @@ export function DateBlock({ iso, muted = false, large = false }) {
       <span className={(large ? 'text-5xl ' : 'text-3xl ') + 'font-bold leading-none tabular-nums'}>{day}</span>
       <span className="mt-1 text-sm font-semibold">{month}</span>
       <span className="mt-0.5 text-xs tabular-nums">{time}</span>
+      {otherYear && <span className="text-xs font-semibold tabular-nums">{year.replace('พ.ศ. ', '')}</span>}
     </div>
   );
 }

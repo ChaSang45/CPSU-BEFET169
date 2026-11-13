@@ -44,7 +44,7 @@ function Home() {
         <input id="search" value={query} onChange={(e) => setQuery(e.target.value)}
                placeholder="พิมพ์ชื่อกิจกรรมหรือสถานที่" className={inputClass + ' pl-10'} />
       </div>
-      <ActivityGrid activities={shown} status={status} error={error}
+      <ActivityGrid activities={shown} status={status} error={error} searching={q !== ''}
                     onRetry={() => setReloadKey(k => k + 1)} />
     </div>
   );
