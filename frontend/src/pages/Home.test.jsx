@@ -39,6 +39,45 @@ test('พิมพ์ค้นหา ต้องกรองในเครื�
   expect(getActivities).toHaveBeenCalledTimes(1);
 });
 
+test('กิจกรรมเยอะ แสดงหน้าละ 10 ใบ กดเลขหน้า/ถัดไป/ก่อนหน้าเพื่อเปลี่ยนหน้า', async () => {
+  const user = userEvent.setup();
+  getActivities.mockResolvedValue(
+    Array.from({ length: 12 }, (_, i) => ({
+      id: i + 1, title: `งานที่ ${i + 1}`, location: 'A',
+      startAt: `2099-01-${String(i + 1).padStart(2, '0')}T00:00:00Z`, capacity: 10, registered: 1,
+    }))
+  );
+  renderHome();
+  await screen.findByText('งานที่ 1');
+  expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(10);
+
+  expect(screen.getByRole('button', { name: 'ก่อนหน้า' })).toBeDisabled();
+  expect(screen.getByRole('button', { name: 'หน้า 1' })).toHaveAttribute('aria-current', 'page');
+
+  await user.click(screen.getByRole('button', { name: 'หน้า 2' }));
+  expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(2);     // หน้า 2 เหลือ 2 ใบ (11, 12)
+  expect(screen.getByText('งานที่ 12')).toBeInTheDocument();
+  expect(screen.queryByText('งานที่ 1')).not.toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'ถัดไป' })).toBeDisabled();
+
+  await user.click(screen.getByRole('button', { name: 'ก่อนหน้า' }));
+  expect(screen.getByText('งานที่ 1')).toBeInTheDocument();
+});
+
+test('ค้นหา ต้องกางกลุ่ม "เริ่มไปแล้ว" ให้เห็นผลด้วย', async () => {
+  const user = userEvent.setup();
+  getActivities.mockResolvedValue([
+    { id: 9, title: 'งานเก่า', location: 'A', startAt: '2000-01-01T00:00:00Z', capacity: 10, registered: 1 },
+    { id: 8, title: 'งานไกล', location: 'B', startAt: '2099-12-01T00:00:00Z', capacity: 10, registered: 1 },
+  ]);
+  renderHome();
+  await screen.findByText('งานไกล');
+  expect(screen.queryByText('งานเก่า')).not.toBeInTheDocument();   // พับไว้ก่อน
+
+  await user.type(screen.getByPlaceholderText(/พิมพ์ชื่อกิจกรรม/), 'เก่า');
+  expect(screen.getByText('งานเก่า')).toBeInTheDocument();
+});
+
 test('ไม่มีกิจกรรม ต้องเห็นข้อความว่าง', async () => {
   getActivities.mockResolvedValue([]);
   renderHome();
@@ -65,7 +104,9 @@ test('เรียงกิจกรรมที่ยังไม่เริ�
     { id: 8, title: 'งานไกล', location: 'B', startAt: '2099-12-01T00:00:00Z', capacity: 10, registered: 1 },
     { id: 7, title: 'งานใกล้', location: 'C', startAt: '2099-01-01T00:00:00Z', capacity: 10, registered: 1 },
   ]);
+  const user = userEvent.setup();
   renderHome();
+  await user.click(await screen.findByRole('button', { name: /ดูกิจกรรมที่เริ่มไปแล้ว \(1\)/ }));   // กลุ่มนี้พับไว้ก่อน
   await screen.findByText('งานเก่า');
 
   const titles = screen.getAllByRole('heading', { level: 3 }).map(h => h.textContent);

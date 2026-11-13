@@ -1,21 +1,26 @@
-// เจ้าของ: ChaSang45 — การ์ดกิจกรรม 1 ใบ
+// เจ้าของ: ChaSang45 — การ์ดกิจกรรม 1 ใบ ออกแบบเป็นตั๋ว: บล็อกวันที่ | ชื่อและสถานที่ | ส่วนท้ายตั๋วบอกที่นั่งว่าง
 import { Link } from 'react-router-dom';
-import { dateTimeTH } from './States';
+import { PinIcon } from './Icons';
 import { StatusBadge, activityStatus } from './ActivityStatus';
+import { DateBlock, SeatCount } from './Ticket';
 
 function ActivityCard({ activity }) {
   const started = activityStatus(activity) === 'started';
   return (
     <Link to={`/activities/${activity.id}`}
-          className={'block rounded-xl border border-indigo-100 bg-white p-4 shadow-sm transition hover:shadow-md '
-                     + (started ? 'opacity-70' : '')}>
-      <div className="flex items-start justify-between gap-2">
-        <h3 className="font-semibold text-slate-900">{activity.title}</h3>
-        <StatusBadge activity={activity} />
+          className="group flex overflow-hidden rounded-lg border border-line bg-white transition-shadow hover:shadow-md">
+      <DateBlock iso={activity.startAt} muted={started} />
+      <div className="min-w-0 flex-1 p-4">
+        <h3 className="break-words font-semibold leading-snug text-ink group-hover:underline">{activity.title}</h3>
+        <p className="mt-2 flex items-start gap-1.5 text-sm text-ink-soft">
+          <PinIcon className="mt-0.5 h-4 w-4 shrink-0" />
+          <span className="min-w-0 break-words">{activity.location || '-'}</span>
+        </p>
+        <div className="mt-3"><StatusBadge activity={activity} /></div>
       </div>
-      <p className="mt-1 text-sm text-slate-500">📅 {dateTimeTH(activity.startAt)}</p>
-      <p className="text-sm text-slate-500">📍 {activity.location || '-'}</p>
-      <p className="mt-2 text-sm text-slate-600">สมัครแล้ว {activity.registered}/{activity.capacity}</p>
+      <div className="stub-v flex w-24 shrink-0 sm:w-28 items-center justify-center px-2 py-3">
+        <SeatCount activity={activity} />
+      </div>
     </Link>
   );
 }

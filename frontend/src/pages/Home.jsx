@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import ActivityGrid from '../components/ActivityGrid';
 import { inputClass } from '../components/States';
+import { SearchIcon } from '../components/Icons';
 import { sortActivities } from '../components/ActivityStatus';
 import { getActivities } from '../api/backend';
 
@@ -35,11 +36,15 @@ function Home() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 md:px-6">
-      <h1 className="text-2xl font-semibold text-slate-900">กิจกรรมคณะ</h1>
-      <p className="mb-6 text-sm text-slate-500">ดูกิจกรรมทั้งหมด สมัครสมาชิกเพื่อกดเข้าร่วม</p>
-      <input value={query} onChange={(e) => setQuery(e.target.value)}
-             placeholder="พิมพ์ชื่อกิจกรรมหรือสถานที่" className={inputClass + ' mb-6'} />
-      <ActivityGrid activities={shown} status={status} error={error}
+      <h1 className="text-3xl font-bold text-ink">กิจกรรมคณะ</h1>
+      <p className="mb-6 mt-1 text-ink-soft">ดูกิจกรรมทั้งหมด สมัครสมาชิกเพื่อจองที่นั่ง</p>
+      <div className="relative mb-8">
+        <label htmlFor="search" className="sr-only">ค้นหากิจกรรม</label>
+        <SearchIcon className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-soft" />
+        <input id="search" value={query} onChange={(e) => setQuery(e.target.value)}
+               placeholder="พิมพ์ชื่อกิจกรรมหรือสถานที่" className={inputClass + ' pl-10'} />
+      </div>
+      <ActivityGrid activities={shown} status={status} error={error} searching={q !== ''}
                     onRetry={() => setReloadKey(k => k + 1)} />
     </div>
   );

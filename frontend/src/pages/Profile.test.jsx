@@ -30,9 +30,9 @@ test('รหัสผ่านใหม่สองช่องไม่ตร�
   renderProfile();
   await screen.findByText('a@su.ac.th');
 
-  await user.type(screen.getByPlaceholderText('รหัสผ่านเดิม'), 'old123');
-  await user.type(screen.getByPlaceholderText(/รหัสผ่านใหม่ \(/), 'new123');
-  await user.type(screen.getByPlaceholderText('ยืนยันรหัสผ่านใหม่'), 'new999');
+  await user.type(screen.getByLabelText('รหัสผ่านเดิม'), 'old123');
+  await user.type(screen.getByLabelText('รหัสผ่านใหม่'), 'new123');
+  await user.type(screen.getByLabelText('ยืนยันรหัสผ่านใหม่'), 'new999');
   await user.click(screen.getByRole('button', { name: 'เปลี่ยนรหัสผ่าน' }));
 
   expect(screen.getByText('รหัสผ่านใหม่ทั้งสองช่องไม่ตรงกัน')).toBeInTheDocument();
@@ -46,9 +46,9 @@ test('รหัสเดิมผิด ต้องแสดงข้อคว�
   renderProfile();
   await screen.findByText('a@su.ac.th');
 
-  await user.type(screen.getByPlaceholderText('รหัสผ่านเดิม'), 'wrong1');
-  await user.type(screen.getByPlaceholderText(/รหัสผ่านใหม่ \(/), 'new123');
-  await user.type(screen.getByPlaceholderText('ยืนยันรหัสผ่านใหม่'), 'new123');
+  await user.type(screen.getByLabelText('รหัสผ่านเดิม'), 'wrong1');
+  await user.type(screen.getByLabelText('รหัสผ่านใหม่'), 'new123');
+  await user.type(screen.getByLabelText('ยืนยันรหัสผ่านใหม่'), 'new123');
   await user.click(screen.getByRole('button', { name: 'เปลี่ยนรหัสผ่าน' }));
 
   expect(await screen.findByText('รหัสผ่านเดิมไม่ถูกต้อง')).toBeInTheDocument();

@@ -46,16 +46,16 @@ function AdminActivities() {
 
   return (
     <div>
-      <h2 className="mb-4 text-lg font-semibold text-slate-900">
+      <h2 className="mb-4 text-lg font-semibold text-ink">
         กิจกรรมทั้งหมด {status === 'success' && `(${activities.length})`}
       </h2>
-      {actionError && <p className="mb-3 text-sm text-red-600">{actionError}</p>}
+      {actionError && <p className="mb-3 text-sm text-alert">{actionError}</p>}
       {status === 'loading' && <Loading />}
       {status === 'error' && <ErrorBox error={error} onRetry={() => setReloadKey(k => k + 1)} />}
       {status === 'success' && (
-        <div className="overflow-x-auto rounded-xl border border-indigo-100 bg-white">
+        <div className="overflow-x-auto rounded-lg border border-line bg-white">
           <table className="w-full text-sm">
-            <thead className="bg-indigo-50/60 text-left text-xs text-slate-500">
+            <thead className="bg-paper text-left text-xs text-ink-soft">
               <tr>
                 <th className="px-4 py-3">กิจกรรม</th>
                 <th className="px-4 py-3">วันเวลา</th>
@@ -63,21 +63,21 @@ function AdminActivities() {
                 <th className="px-4 py-3 text-right">จัดการ</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-line">
               {activities.map(a => (
-                <tr key={a.id} className="hover:bg-indigo-50/40">
-                  <td className="min-w-[9rem] px-4 py-2 font-medium text-slate-900">{a.title}</td>
-                  <td className="whitespace-nowrap px-4 py-2 text-slate-600">{dateTimeTH(a.startAt)}</td>
-                  <td className="whitespace-nowrap px-4 py-2 text-slate-600">{a.registered}/{a.capacity}</td>
-                  <td className="space-x-3 whitespace-nowrap px-4 py-2 text-right">
-                    <Link to={`/admin/activities/${a.id}/participants`} className="text-indigo-600 hover:underline">ผู้สมัคร</Link>
-                    <Link to={`/admin/activities/${a.id}`} className="text-amber-600 hover:underline">แก้ไข</Link>
-                    <button onClick={() => setTarget(a)} className="text-red-600 hover:underline">ลบ</button>
+                <tr key={a.id} className="hover:bg-paper">
+                  <td className="min-w-[9rem] px-4 py-2 font-medium text-ink">{a.title}</td>
+                  <td className="whitespace-nowrap px-4 py-2 text-ink-soft">{dateTimeTH(a.startAt)}</td>
+                  <td className="whitespace-nowrap px-4 py-2 text-ink-soft">{a.registered}/{a.capacity}</td>
+                  <td className="space-x-2 whitespace-nowrap px-4 py-1 text-right">
+                    <Link to={`/admin/activities/${a.id}/participants`} className="inline-flex min-h-[44px] items-center px-1 font-medium text-ink underline decoration-signal decoration-2 underline-offset-4 hover:bg-signal/30">ผู้สมัคร</Link>
+                    <Link to={`/admin/activities/${a.id}`} className="inline-flex min-h-[44px] items-center px-1 font-medium text-ink underline decoration-signal decoration-2 underline-offset-4 hover:bg-signal/30">แก้ไข</Link>
+                    <button onClick={() => setTarget(a)} className="inline-flex min-h-[44px] items-center px-1 font-medium text-alert underline underline-offset-4 hover:bg-alert/10">ลบ</button>
                   </td>
                 </tr>
               ))}
               {activities.length === 0 && (
-                <tr><td colSpan={4} className="px-4 py-10 text-center text-slate-400">ยังไม่มีกิจกรรม</td></tr>
+                <tr><td colSpan={4} className="px-4 py-10 text-center text-ink-soft">ยังไม่มีกิจกรรม</td></tr>
               )}
             </tbody>
           </table>

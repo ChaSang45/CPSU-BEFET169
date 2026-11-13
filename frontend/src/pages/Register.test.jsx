@@ -21,9 +21,9 @@ function renderRegister() {
 }
 
 async function fillAndSubmit(user) {
-  await user.type(screen.getByPlaceholderText('ชื่อที่แสดง'), 'สมชาย');
-  await user.type(screen.getByPlaceholderText('อีเมล'), 'a@su.ac.th');
-  await user.type(screen.getByPlaceholderText(/รหัสผ่าน/), 'secret1');
+  await user.type(screen.getByLabelText('ชื่อที่แสดง'), 'สมชาย');
+  await user.type(screen.getByLabelText('อีเมล'), 'a@su.ac.th');
+  await user.type(screen.getByLabelText('รหัสผ่าน'), 'secret1');
   await user.click(screen.getByRole('button', { name: 'สมัครสมาชิก' }));
 }
 

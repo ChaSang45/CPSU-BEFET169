@@ -6,7 +6,7 @@
 ## เอกสารอ้างอิง (อ่านตามเงื่อนไข)
 
 - ก่อนเริ่มงานทุกชิ้น: [docs/SCOPE.md](docs/SCOPE.md) ขอบเขต, tech stack ที่ใช้ได้, ป้ายที่มา [จารย์]/[วิชา]/[เสนอ]
-- เมื่อต้องตีความเกณฑ์คะแนนหรือข้อบังคับ: [docs/INSTRUCTOR-REQUIREMENTS.md](docs/INSTRUCTOR-REQUIREMENTS.md) (ฉบับคัดลอกตรงจากอาจารย์ ห้ามแก้)
+- เมื่อต้องตีความเกณฑ์คะแนนหรือข้อบังคับ: `docs/INSTRUCTOR-REQUIREMENTS.md` (ฉบับคัดลอกตรงจากอาจารย์ ห้ามแก้ **เก็บไว้ในเครื่องเท่านั้น ไม่ขึ้น GitHub** ขอไฟล์จากเพื่อนร่วมทีมถ้าไม่มี)
 - เมื่อแตะ API: `docs/api.md` (สัญญา API — เปลี่ยน endpoint ต้องแก้ไฟล์นี้และบอกอีกคนก่อน)
 
 ## ลำดับความสำคัญเมื่อข้อมูลขัดกัน
@@ -41,6 +41,8 @@
 | Frontend ทั้งหมด (React) — `frontend/`: `pages/*`, `components/*`, `auth/*`, `App.jsx`, test ทั้งหมด + Vercel | ChaSang45 |
 | ไฟล์กลาง (แก้แล้วต้องบอกกัน): `docs/api.md`, `frontend/src/api/backend.js` | ทั้งคู่ |
 
+หมายเหตุ: Frontend เป็นของ ChaSang45 ทั้งหมด (ไฟล์ที่ Matika-Tana ส่งมาตอนแรกเป็นโค้ดทดลอง ChaSang45 รับไปปรับและต่อยอดแล้ว) ถ้า Matika-Tana ต้องแก้ไฟล์ใน `frontend/` ให้บอกก่อนหรือเปิด PR แยกเล็ก ๆ
+
 ## กติกาใช้ AI (ข้อสำคัญที่สุด)
 
 - เกณฑ์คลิป 5 จาก 20 คะแนนตัดสินรายบุคคล: **ทุกคนต้องอธิบายโค้ดที่ตัวเองรับผิดชอบได้ทุกบรรทัด** และชี้เส้นทาง กดปุ่ม → React → `apiFetch` → Go → DB → กลับมา
@@ -65,5 +67,6 @@
 - โครงสร้าง repo: repo เดียว `frontend/` + `backend/` (Render/Vercel ตั้ง Root Directory)
 - สัญญา API: `docs/api.md` / วิธีรันและ deploy: `docs/DEPLOY.md` / เทียบกับที่เรียน: `docs/CLASS-CHECK.md`
 - รูปแบบโค้ดยึดตาม repo คลาส: moviehub (FE) และ backend-week8-lab (Go)
-- โค้ดเวอร์ชันแรกเขียนครบแล้ว แต่ยังไม่ได้รันกับ DB จริง ยังไม่ได้ deploy
+- Backend: ทดสอบกับ Postgres จริงในเครื่องแล้ว (API ผ่าน 55 รายการ) / Frontend: ออกแบบใหม่แนวตั๋วแล้ว, `npm test` ผ่าน 35 ข้อ, ตรวจ Guest/Member/Admin ด้วย Playwright กับ API จำลอง
+- ยังไม่ได้ทดสอบ frontend ใหม่กับ backend จริง และ Deploy กำลังทำ (Supabase/Render โดย Matika-Tana, Vercel โดย ChaSang45)
 - กำหนดส่ง: 8–14 พ.ย. 2569
