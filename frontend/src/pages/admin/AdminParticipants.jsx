@@ -1,4 +1,4 @@
-// เจ้าของ: Matika — รายชื่อคนที่สมัครกิจกรรมนี้
+// เจ้าของ: ChaSang45 — รายชื่อคนที่สมัครกิจกรรมนี้
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
@@ -53,7 +53,7 @@ function AdminParticipants() {
                 <td className="px-4 py-2 text-slate-400">{i + 1}</td>
                 <td className="px-4 py-2 font-medium text-slate-900">{p.displayName}</td>
                 <td className="px-4 py-2 text-slate-600">{p.email}</td>
-                <td className="px-4 py-2 text-slate-600">{dateTimeTH(p.registeredAt)}</td>
+                <td className="whitespace-nowrap px-4 py-2 text-slate-600">{dateTimeTH(p.registeredAt)}</td>
               </tr>
             ))}
             {items.length === 0 && (
