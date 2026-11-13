@@ -39,7 +39,7 @@ test('พิมพ์ค้นหา ต้องกรองในเครื�
   expect(getActivities).toHaveBeenCalledTimes(1);
 });
 
-test('กิจกรรมเยอะ แสดงทีละ 10 ใบ กด "แสดงเพิ่ม" ถึงเห็นที่เหลือ', async () => {
+test('กิจกรรมเยอะ แสดงหน้าละ 10 ใบ กดเลขหน้า/ถัดไป/ก่อนหน้าเพื่อเปลี่ยนหน้า', async () => {
   const user = userEvent.setup();
   getActivities.mockResolvedValue(
     Array.from({ length: 12 }, (_, i) => ({
@@ -51,9 +51,17 @@ test('กิจกรรมเยอะ แสดงทีละ 10 ใบ ก�
   await screen.findByText('งานที่ 1');
   expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(10);
 
-  await user.click(screen.getByRole('button', { name: /แสดงเพิ่ม \(เหลืออีก 2\)/ }));
-  expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(12);
-  expect(screen.queryByRole('button', { name: /แสดงเพิ่ม/ })).not.toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'ก่อนหน้า' })).toBeDisabled();
+  expect(screen.getByRole('button', { name: 'หน้า 1' })).toHaveAttribute('aria-current', 'page');
+
+  await user.click(screen.getByRole('button', { name: 'หน้า 2' }));
+  expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(2);     // หน้า 2 เหลือ 2 ใบ (11, 12)
+  expect(screen.getByText('งานที่ 12')).toBeInTheDocument();
+  expect(screen.queryByText('งานที่ 1')).not.toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'ถัดไป' })).toBeDisabled();
+
+  await user.click(screen.getByRole('button', { name: 'ก่อนหน้า' }));
+  expect(screen.getByText('งานที่ 1')).toBeInTheDocument();
 });
 
 test('ค้นหา ต้องกางกลุ่ม "เริ่มไปแล้ว" ให้เห็นผลด้วย', async () => {
