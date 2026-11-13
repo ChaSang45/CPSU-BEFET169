@@ -52,7 +52,7 @@ export function changePassword(currentPassword, newPassword, token) {
   return apiFetch('/api/me/password', { method: 'PUT', body: { currentPassword, newPassword }, token });
 }
 
-// ---------- กิจกรรม สาธารณะ (Matika) ----------
+// ---------- กิจกรรม สาธารณะ ----------
 export async function getActivities() {
   const data = await apiFetch('/api/activities');
   return data.items;
@@ -73,7 +73,7 @@ export function cancelActivity(id, token) {
   return apiFetch(`/api/me/activities/${id}`, { method: 'DELETE', token });            // 204 ได้ null
 }
 
-// ---------- หลังบ้าน ทุกตัวต้องแนบ token ของ admin ถ้าเป็น member Go ตอบ 403 (Matika) ----------
+// ---------- หลังบ้าน ทุกตัวต้องแนบ token ของ admin ถ้าเป็น member Go ตอบ 403 ----------
 export function createActivity(fields, token) {
   return apiFetch('/api/admin/activities', { method: 'POST', body: fields, token });
 }

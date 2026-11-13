@@ -1,4 +1,4 @@
-// เจ้าของ: Matika — ตารางกิจกรรมหลังบ้าน + แก้ไข / ลบ / ดูผู้สมัคร
+// เจ้าของ: ChaSang45 — ตารางกิจกรรมหลังบ้าน + แก้ไข / ลบ / ดูผู้สมัคร
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
@@ -66,10 +66,10 @@ function AdminActivities() {
             <tbody className="divide-y divide-slate-100">
               {activities.map(a => (
                 <tr key={a.id} className="hover:bg-indigo-50/40">
-                  <td className="px-4 py-2 font-medium text-slate-900">{a.title}</td>
-                  <td className="px-4 py-2 text-slate-600">{dateTimeTH(a.startAt)}</td>
-                  <td className="px-4 py-2 text-slate-600">{a.registered}/{a.capacity}</td>
-                  <td className="space-x-3 px-4 py-2 text-right">
+                  <td className="min-w-[9rem] px-4 py-2 font-medium text-slate-900">{a.title}</td>
+                  <td className="whitespace-nowrap px-4 py-2 text-slate-600">{dateTimeTH(a.startAt)}</td>
+                  <td className="whitespace-nowrap px-4 py-2 text-slate-600">{a.registered}/{a.capacity}</td>
+                  <td className="space-x-3 whitespace-nowrap px-4 py-2 text-right">
                     <Link to={`/admin/activities/${a.id}/participants`} className="text-indigo-600 hover:underline">ผู้สมัคร</Link>
                     <Link to={`/admin/activities/${a.id}`} className="text-amber-600 hover:underline">แก้ไข</Link>
                     <button onClick={() => setTarget(a)} className="text-red-600 hover:underline">ลบ</button>
