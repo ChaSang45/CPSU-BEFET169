@@ -37,11 +37,9 @@
 
 | ส่วนงาน | เจ้าของ |
 |---|---|
-| กิจกรรม: ดู/ค้นหา/รายละเอียด — BE `handler/activities.go`, `store/activities.go` / FE `pages/Home.jsx`, `pages/ActivityDetail.jsx` (ส่วนแสดงผล), `components/ActivityCard.jsx`, `components/ActivityGrid.jsx` | Matika-Tana |
-| หลังบ้าน: เพิ่ม/แก้/ลบ/ดูผู้สมัคร — BE `handler/admin.go` / FE `pages/admin/*` | Matika-Tana |
-| สมาชิก: สมัคร/ล็อกอิน/ออก/โปรไฟล์/เปลี่ยนรหัสผ่าน/JWT/401-403 — BE `handler/auth.go`, `store/members.go`, `mw/auth.go` / FE `auth/AuthContext.jsx`, `components/ProtectedRoute.jsx`, `components/RequireRole.jsx`, `pages/Login.jsx`, `pages/Register.jsx`, `pages/Profile.jsx` (โปรไฟล์ + เปลี่ยนรหัสผ่าน) | ChaSang45 |
-| เข้าร่วมกิจกรรม: สมัคร/ยกเลิก/กิจกรรมของฉัน — BE `handler/registrations.go`, `store/registrations.go` / FE ปุ่มใน `ActivityDetail.jsx`, `pages/MyActivities.jsx` | ChaSang45 |
-| ไฟล์กลาง: `main.go`, `handler/handler.go` (Routes), `mw/mw.go`, `store/store.go`, `schema.sql`, `api/backend.js`, `App.jsx`, `components/States.jsx`, `components/Navbar.jsx` | ทั้งคู่ (แก้แล้วบอกกัน) |
+| Backend ทั้งหมด (Go) — `backend/`: `main.go`, `handler/*`, `store/*`, `mw/*`, `schema.sql` + Supabase + Render | Matika-Tana |
+| Frontend ทั้งหมด (React) — `frontend/`: `pages/*`, `components/*`, `auth/*`, `App.jsx`, test ทั้งหมด + Vercel | ChaSang45 |
+| ไฟล์กลาง (แก้แล้วต้องบอกกัน): `docs/api.md`, `frontend/src/api/backend.js` | ทั้งคู่ |
 
 ## กติกาใช้ AI (ข้อสำคัญที่สุด)
 
