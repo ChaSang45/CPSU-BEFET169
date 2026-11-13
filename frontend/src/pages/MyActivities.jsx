@@ -78,7 +78,7 @@ function MyActivities() {
       )}
 
       <ConfirmBox open={Boolean(target)} busy={busy} title={`ยกเลิกการสมัคร "${target?.title}" ?`}
-                  confirmText="ยกเลิกการสมัคร" onConfirm={confirmCancel} onCancel={() => setTarget(null)}>
+                  confirmText="ยกเลิกการสมัคร" cancelText="กลับ" onConfirm={confirmCancel} onCancel={() => setTarget(null)}>
         <p>ถ้าที่นั่งเต็มแล้ว อาจสมัครกลับเข้ามาใหม่ไม่ได้</p>
       </ConfirmBox>
     </div>

@@ -34,7 +34,7 @@ function AdminParticipants() {
   const { activity, items } = data;
   return (
     <div>
-      <Link to="/admin" className="text-sm font-medium text-ink underline decoration-signal decoration-2 underline-offset-4 hover:bg-signal/30">← กิจกรรมทั้งหมด</Link>
+      <Link to="/admin" className="inline-flex min-h-[44px] items-center text-sm font-medium text-ink underline decoration-signal decoration-2 underline-offset-4 hover:bg-signal/30">← กิจกรรมทั้งหมด</Link>
       <h2 className="mt-2 text-lg font-semibold text-ink">ผู้สมัคร: {activity.title}</h2>
       <p className="mb-4 text-sm text-ink-soft">{items.length}/{activity.capacity} คน</p>
       <div className="overflow-x-auto rounded-lg border border-line bg-white">

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import { getActivity, getMyActivities, joinActivity, cancelActivity } from '../api/backend';
-import { ErrorBox, Loading, btnPrimary, btnDanger, dateTimeTH, linkClass } from '../components/States';
+import { ConfirmBox, ErrorBox, Loading, btnPrimary, btnDanger, dateTimeTH, linkClass } from '../components/States';
 import { CheckIcon, ClockIcon, PinIcon, UsersIcon } from '../components/Icons';
 import { DateBlock } from '../components/Ticket';
 import { StatusBadge, activityStatus } from '../components/ActivityStatus';
@@ -17,6 +17,7 @@ function ActivityDetail() {
   const [error, setError] = useState(null);
   const [busy, setBusy] = useState(false);            // กำลังกดปุ่ม กันกดซ้ำ
   const [actionError, setActionError] = useState(null);
+  const [confirming, setConfirming] = useState(false);   // true = เปิดกล่องยืนยันยกเลิก
 
   useEffect(() => {
     let ignore = false;
@@ -61,7 +62,7 @@ function ActivityDetail() {
     }
   }
 
-  // ChaSang45: ยกเลิกการสมัคร
+  // ChaSang45: ยกเลิกการสมัคร (เรียกหลังกดยืนยันในกล่องยืนยัน)
   async function handleCancel() {
     setBusy(true);
     setActionError(null);
@@ -69,8 +70,10 @@ function ActivityDetail() {
       await cancelActivity(id, token);
       setJoined(false);
       setActivity({ ...activity, registered: activity.registered - 1 });
+      setConfirming(false);
     } catch (err) {
       setActionError(err.message);
+      setConfirming(false);
     } finally {
       setBusy(false);
     }
@@ -91,7 +94,7 @@ function ActivityDetail() {
           <CheckIcon className="h-5 w-5" />
           คุณสมัครกิจกรรมนี้แล้ว
         </p>
-        <button onClick={handleCancel} disabled={busy} className={btnDanger}>{busy ? 'กำลังยกเลิก...' : 'ยกเลิกการสมัคร'}</button>
+        <button onClick={() => setConfirming(true)} className={btnDanger}>ยกเลิกการสมัคร</button>
       </>
     );
   } else if (activityState === 'started') {
@@ -104,7 +107,7 @@ function ActivityDetail() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
-      <Link to="/" className={linkClass}>กลับไปกิจกรรมทั้งหมด</Link>
+      <Link to="/" className={linkClass + ' inline-flex min-h-[44px] items-center'}>กลับไปกิจกรรมทั้งหมด</Link>
       <article className="mt-4 overflow-hidden rounded-lg border border-line bg-white">
         <div className="flex">
           <DateBlock iso={activity.startAt} muted={activityState === 'started'} large />
@@ -125,6 +128,10 @@ function ActivityDetail() {
         )}
         <div className="stub-h flex flex-wrap items-center gap-3 px-5 py-5">{action}</div>
       </article>
+      <ConfirmBox open={confirming} busy={busy} title={`ยกเลิกการสมัคร "${activity.title}" ?`}
+                  confirmText="ยกเลิกการสมัคร" cancelText="กลับ" onConfirm={handleCancel} onCancel={() => setConfirming(false)}>
+        <p>ถ้าที่นั่งเต็มแล้ว อาจสมัครกลับเข้ามาใหม่ไม่ได้</p>
+      </ConfirmBox>
       {actionError && <p role="alert" className="mt-3 text-sm font-medium text-alert">{actionError}</p>}
     </div>
   );
