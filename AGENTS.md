@@ -37,14 +37,9 @@
 
 | ส่วนงาน | เจ้าของ |
 |---|---|
-| **Frontend ทั้งหมด** (`frontend/`: `pages/`, `components/`, `auth/`, `api/` ฯลฯ) ยกเว้นไฟล์กลางด้านล่าง — หน้าตา, การออกแบบ, ฟอร์ม, ยืนยัน popup, React test | ChaSang45 |
-| BE กิจกรรม: ดู/ค้นหา/รายละเอียด — `handler/activities.go`, `store/activities.go` | Matika-Tana |
-| BE หลังบ้าน: เพิ่ม/แก้/ลบ/ดูผู้สมัคร — `handler/admin.go` | Matika-Tana |
-| BE สมาชิก: สมัคร/ล็อกอิน/โปรไฟล์/เปลี่ยนรหัสผ่าน/JWT/401-403 — `handler/auth.go`, `store/members.go`, `mw/auth.go` | ChaSang45 |
-| BE เข้าร่วมกิจกรรม: สมัคร/ยกเลิก/กิจกรรมของฉัน — `handler/registrations.go`, `store/registrations.go` | ChaSang45 |
-| Deploy: Supabase + Render (ตั้งค่า, env, ตั้งแอดมินด้วย SQL) | Matika-Tana |
-| Deploy: Vercel (frontend) | ChaSang45 |
-| ไฟล์กลาง: `main.go`, `handler/handler.go` (Routes), `mw/mw.go`, `store/store.go`, `schema.sql`, `api/backend.js`, `App.jsx`, `components/States.jsx`, `components/Navbar.jsx` | ทั้งคู่ (แก้แล้วบอกกัน) |
+| Backend ทั้งหมด (Go) — `backend/`: `main.go`, `handler/*`, `store/*`, `mw/*`, `schema.sql` + Supabase + Render | Matika-Tana |
+| Frontend ทั้งหมด (React) — `frontend/`: `pages/*`, `components/*`, `auth/*`, `App.jsx`, test ทั้งหมด + Vercel | ChaSang45 |
+| ไฟล์กลาง (แก้แล้วต้องบอกกัน): `docs/api.md`, `frontend/src/api/backend.js` | ทั้งคู่ |
 
 หมายเหตุ: Frontend เป็นของ ChaSang45 ทั้งหมด (ไฟล์ที่ Matika-Tana ส่งมาตอนแรกเป็นโค้ดทดลอง ChaSang45 รับไปปรับและต่อยอดแล้ว) ถ้า Matika-Tana ต้องแก้ไฟล์ใน `frontend/` ให้บอกก่อนหรือเปิด PR แยกเล็ก ๆ
 
