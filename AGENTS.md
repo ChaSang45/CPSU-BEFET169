@@ -37,11 +37,16 @@
 
 | ส่วนงาน | เจ้าของ |
 |---|---|
-| กิจกรรม: ดู/ค้นหา/รายละเอียด — BE `handler/activities.go`, `store/activities.go` / FE `pages/Home.jsx`, `pages/ActivityDetail.jsx` (ส่วนแสดงผล), `components/ActivityCard.jsx`, `components/ActivityGrid.jsx` | Matika-Tana |
-| หลังบ้าน: เพิ่ม/แก้/ลบ/ดูผู้สมัคร — BE `handler/admin.go` / FE `pages/admin/*` | Matika-Tana |
-| สมาชิก: สมัคร/ล็อกอิน/ออก/โปรไฟล์/เปลี่ยนรหัสผ่าน/JWT/401-403 — BE `handler/auth.go`, `store/members.go`, `mw/auth.go` / FE `auth/AuthContext.jsx`, `components/ProtectedRoute.jsx`, `components/RequireRole.jsx`, `pages/Login.jsx`, `pages/Register.jsx`, `pages/Profile.jsx` (โปรไฟล์ + เปลี่ยนรหัสผ่าน) | ChaSang45 |
-| เข้าร่วมกิจกรรม: สมัคร/ยกเลิก/กิจกรรมของฉัน — BE `handler/registrations.go`, `store/registrations.go` / FE ปุ่มใน `ActivityDetail.jsx`, `pages/MyActivities.jsx` | ChaSang45 |
+| **Frontend ทั้งหมด** (`frontend/`: `pages/`, `components/`, `auth/`, `api/` ฯลฯ) ยกเว้นไฟล์กลางด้านล่าง — หน้าตา, การออกแบบ, ฟอร์ม, ยืนยัน popup, React test | ChaSang45 |
+| BE กิจกรรม: ดู/ค้นหา/รายละเอียด — `handler/activities.go`, `store/activities.go` | Matika-Tana |
+| BE หลังบ้าน: เพิ่ม/แก้/ลบ/ดูผู้สมัคร — `handler/admin.go` | Matika-Tana |
+| BE สมาชิก: สมัคร/ล็อกอิน/โปรไฟล์/เปลี่ยนรหัสผ่าน/JWT/401-403 — `handler/auth.go`, `store/members.go`, `mw/auth.go` | ChaSang45 |
+| BE เข้าร่วมกิจกรรม: สมัคร/ยกเลิก/กิจกรรมของฉัน — `handler/registrations.go`, `store/registrations.go` | ChaSang45 |
+| Deploy: Supabase + Render (ตั้งค่า, env, ตั้งแอดมินด้วย SQL) | Matika-Tana |
+| Deploy: Vercel (frontend) | ChaSang45 |
 | ไฟล์กลาง: `main.go`, `handler/handler.go` (Routes), `mw/mw.go`, `store/store.go`, `schema.sql`, `api/backend.js`, `App.jsx`, `components/States.jsx`, `components/Navbar.jsx` | ทั้งคู่ (แก้แล้วบอกกัน) |
+
+หมายเหตุ: Frontend เป็นของ ChaSang45 ทั้งหมด (ไฟล์ที่ Matika-Tana ส่งมาตอนแรกเป็นโค้ดทดลอง ChaSang45 รับไปปรับและต่อยอดแล้ว) ถ้า Matika-Tana ต้องแก้ไฟล์ใน `frontend/` ให้บอกก่อนหรือเปิด PR แยกเล็ก ๆ
 
 ## กติกาใช้ AI (ข้อสำคัญที่สุด)
 
@@ -67,5 +72,6 @@
 - โครงสร้าง repo: repo เดียว `frontend/` + `backend/` (Render/Vercel ตั้ง Root Directory)
 - สัญญา API: `docs/api.md` / วิธีรันและ deploy: `docs/DEPLOY.md` / เทียบกับที่เรียน: `docs/CLASS-CHECK.md`
 - รูปแบบโค้ดยึดตาม repo คลาส: moviehub (FE) และ backend-week8-lab (Go)
-- โค้ดเวอร์ชันแรกเขียนครบแล้ว แต่ยังไม่ได้รันกับ DB จริง ยังไม่ได้ deploy
+- Backend: ทดสอบกับ Postgres จริงในเครื่องแล้ว (API ผ่าน 55 รายการ) / Frontend: ออกแบบใหม่แนวตั๋วแล้ว, `npm test` ผ่าน 35 ข้อ, ตรวจ Guest/Member/Admin ด้วย Playwright กับ API จำลอง
+- ยังไม่ได้ทดสอบ frontend ใหม่กับ backend จริง และ Deploy กำลังทำ (Supabase/Render โดย Matika-Tana, Vercel โดย ChaSang45)
 - กำหนดส่ง: 8–14 พ.ย. 2569

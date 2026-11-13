@@ -2,7 +2,8 @@
 
 Term Project วิชา BE-FE (Client Side 520 341 + Server Side 520 342) ทีม 2 คน
 
-> หัวข้อโปรเจกต์: **ยังไม่เลือก** (อัปเดตไฟล์นี้เมื่อเลือกแล้ว)
+> หัวข้อโปรเจกต์: **เว็บรวบรวมกิจกรรมคณะ**
+> Guest ดู/ค้นหากิจกรรม · Member สมัคร/ยกเลิก/ดูกิจกรรมของฉัน/แก้โปรไฟล์/เปลี่ยนรหัสผ่าน · Admin เพิ่ม/แก้/ลบกิจกรรมและดูรายชื่อผู้สมัคร
 
 ## ระบบจริง (Deploy)
 
@@ -22,12 +23,23 @@ React (Create React App) + React Router v6 + Tailwind CSS v3 / Go `net/http` + p
 
 - [AGENTS.md](AGENTS.md) กติการ่วมของทีมและ AI (อ่านก่อนเริ่มงาน)
 - [docs/SCOPE.md](docs/SCOPE.md) ขอบเขตงานและเกณฑ์
+- [docs/api.md](docs/api.md) สัญญา API
+- [docs/ADMIN.md](docs/ADMIN.md) วิธีตั้งแอดมินและตรวจสิทธิ์
 - [docs/INSTRUCTOR-REQUIREMENTS.md](docs/INSTRUCTOR-REQUIREMENTS.md) ข้อกำหนดของอาจารย์
 
 ## วิธีรันในเครื่อง
 
-_เติมหลังสร้างโครง Frontend/Backend_
+ดูขั้นตอนเต็มใน [docs/DEPLOY.md](docs/DEPLOY.md) (ต้องมี Postgres เช่น Supabase หรือ Docker ในเครื่อง)
+
+- Backend: `cd backend` → ตั้งค่า `.env` ตาม `.env.example` → `go test ./...` → `go run .`
+- Frontend: `cd frontend` → `npm install` → `npm test -- --watchAll=false` → `npm start`
+- ตั้งแอดมิน: [docs/ADMIN.md](docs/ADMIN.md)
 
 ## ผู้จัดทำ
 
-_เติมชื่อสมาชิก 2 คน และส่วนที่แต่ละคนรับผิดชอบ_
+| ชื่อ (GitHub) | ส่วนที่รับผิดชอบ |
+|---|---|
+| ChaSang45 | Frontend ทั้งหมด, Deploy Vercel, สมาชิก/เข้าร่วมกิจกรรม (ฝั่ง Backend) |
+| Matika-Tana | Backend กิจกรรมและหลังบ้าน, Deploy Supabase + Render |
+
+รายละเอียดรายไฟล์ดูตารางใน [AGENTS.md](AGENTS.md)
