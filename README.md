@@ -3,15 +3,18 @@
 Term Project วิชา BE-FE (Client Side 520 341 + Server Side 520 342) ทีม 2 คน
 
 > หัวข้อโปรเจกต์: **เว็บรวบรวมกิจกรรมคณะ**
-> Guest ดู/ค้นหากิจกรรม · Member สมัคร/ยกเลิก/ดูกิจกรรมของฉัน/แก้โปรไฟล์/เปลี่ยนรหัสผ่าน · Admin เพิ่ม/แก้/ลบกิจกรรมและดูรายชื่อผู้สมัคร
+>
+> - **Guest** ดูและค้นหากิจกรรม
+> - **Member** สมัคร/ยกเลิก/ดูกิจกรรมของฉัน แก้โปรไฟล์ เปลี่ยนรหัสผ่าน
+> - **Admin** เพิ่ม/แก้/ลบกิจกรรม และดูรายชื่อผู้สมัคร
 
 ## ระบบจริง (Deploy)
 
 | ส่วน | บริการ | URL |
 |---|---|---|
-| Frontend | Vercel | _ยังไม่ Deploy_ |
-| Backend | Render | _ยังไม่ Deploy_ |
-| Database | Supabase | _ยังไม่สร้าง_ |
+| Frontend | Vercel | https://cpsu-befet-169.vercel.app |
+| Backend | Render | https://cpsu-befet169.onrender.com (ตรวจสถานะที่ `/api/health`) |
+| Database | Supabase (PostgreSQL) | ใช้ภายใน Backend ไม่เปิดให้เข้าตรง |
 
 หมายเหตุ: Render ฟรีจะหลับหลังไม่มีคนใช้ ~15 นาที เปิดหน้า health check ปลุกก่อนใช้งาน
 
